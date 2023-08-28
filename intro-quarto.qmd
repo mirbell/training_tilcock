@@ -1,18 +1,14 @@
 ---
-title: "R Workshop"
+title: "Intro to Quarto"
 format: html
 editor: visual
 ---
 
-## 
+## Quarto
 
--   \[Introduction to Quarto\](intro-quarto.html)
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
 
--Cleaning and Wrangling Data
-
--Data Visualization
-
--Spatial Data in R
+## Running Code
 
 When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
 
