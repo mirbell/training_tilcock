@@ -1,0 +1,208 @@
+---
+title: "Intro to Text Data"
+format: html
+editor: visual
+---
+
+#Exercise: Tidy Text Workflow
+
+```{r}
+library(gutenbergr) # access public domain texts from Project Gutenberg
+library(tidytext) # text mining using tidy tools
+library(dplyr) # wrangle data
+library(ggplot2) # plot data
+```
+
+```{r}
+library(tidytext) # tidy text tools
+library(quanteda) # create a corpus
+library(pdftools) # read in data
+library(dplyr) # wrangle data
+library(stringr) # string manipulation
+library(ggplot2) # plots
+library(wordcloud)
+```
+
+```{r}
+# Group A
+gutenberg_works(title == "Dracula") # dracula text
+```
+
+##get the ID number and pull in the book
+
+```{r}
+# get id number
+gutenberg_works(title == "Dracula")
+
+
+# access text data using id number from `gutenberg_works()`
+dracula_corp <- gutenberg_download(345)
+```
+
+##This takes the text from long format so you only have one word or variable per line or one token per row
+
+```{r}
+tidy_drac<-dracula_corp %>% 
+  unnest_tokens(word, text)
+```
+
+##This anti join removes the "stop words" these are things like "the", "and", etc
+
+```{r}
+tidy_drac<-tidy_drac %>% 
+  dplyr::anti_join(stop_words, by = "word")
+```
+
+##Now we want to look at the top 10 words that are used in this text
+
+```{r}
+
+count_drac<-tidy_drac %>% 
+  count(word) %>% 
+  slice_max(n = 10, order_by = n)
+
+```
+
+##We have the top 10 words, now we can plot the top 10
+
+```{r}
+ggplot(count_drac, aes(n, reorder(word,n))) +
+  geom_col(fill = "darkslategray4", color = "black") +
+  labs(x = "Count",
+       y = "Token",
+       title = "Top 10 words found in 'Dracula' by Bram Stoker") +
+  theme_bw()
+```
+
+### Explore unstructured text data from a pdf
+
+
+
+###Read in data
+
+```{r}
+# ch 3
+path_df <- "data/dsc-chapter-3.pdf"
+dp_ch3 <- pdftools::pdf_text(path_df)
+class(dp_ch3)
+
+```
+
+
+
+## Turn into corpus
+
+```{r}
+corpus_dp_ch3<-quanteda::corpus(dp_ch3)
+summary(corpus_dp_ch3)
+
+```
+
+
+### Make our corpus tidy
+
+```{r}
+tidy_dp_ch3<- tidytext:: tidy(corpus_dp_ch3)
+
+tidy_dp_ch3<- tidy_dp_ch3 %>% 
+  unnest_tokens(word,text)
+
+tidy_dp_ch3 <- tidy_dp_ch3  %>% 
+  dplyr::anti_join(stop_words, by = "word")
+  
+```
+
+
+```{r}
+count_dp_ch3<- tidy_dp_ch3  %>% 
+  count(word) %>% 
+  slice_max(n = 10, order_by = n)
+
+```
+
+##plot word cloud
+
+```{r}
+# wordcloud
+
+pal = brewer.pal(10,"Blues")
+
+wordcloud(words = count_dp_ch3$word,
+          freq = count_dp_ch3$n,
+          colors = "turquoise4") 
+```
+
+
+##lens paper 
+
+```{r}
+
+
+path_lens <- "data/Lens method note.pdf"
+lens <- pdftools::pdf_text(path_lens)
+
+
+```
+
+
+
+## Turn into corpus
+
+```{r}
+corpus_lens<-quanteda::corpus(lens)
+summary(corpus_lens)
+
+```
+
+
+### Make our corpus tidy
+
+```{r}
+tidy_lens<- tidytext:: tidy(corpus_lens)
+
+tidy_lens<- tidy_lens %>% 
+  unnest_tokens(word,text)
+
+tidy_lens <- tidy_lens  %>% 
+  dplyr::anti_join(stop_words, by = "word")
+  
+```
+
+
+```{r}
+count_lens<- tidy_lens  %>% 
+  count(word) %>% 
+  slice_max(n = 10, order_by = n)
+
+```
+
+##plot word cloud
+
+```{r}
+# wordcloud
+
+pal = brewer.pal(10,"Blues")
+
+wordcloud(words = count_lens$word,
+          freq = count_lens$n,
+          colors = "turquoise4") 
+```
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
+
+
+
+
+
+
+
+
+
+
+
+

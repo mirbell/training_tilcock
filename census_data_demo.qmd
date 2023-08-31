@@ -1,0 +1,24 @@
+---
+title: "Census data demo"
+format: html
+editor: visual
+---
+
+```{r}
+library(tidycensus)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+
+```
+
+```{r}
+census_api_key("6607b93f58342e3f6713364a1589fcc5da6a65a3", install = TRUE)
+```
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).

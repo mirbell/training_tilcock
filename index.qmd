@@ -9,8 +9,11 @@ editor: visual
 - [Introduction to Quarto](intro-quarto.html)
 - [Cleaning and Wrangling Data](data-visualization.html)
 - [Data Visualization](data-visualization.html)
+- [SF Mapping Demo](sf_spatial_mapping_demo.qmd)
+- [Census data demo](census_data_demo.qmd)
+- [Intro to text data](intro_to_text_data.qmd)
+- [Reproducible Surveys](reproducible_survey.qmd)
 
-- Spatial Data in R
 
 When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
 
